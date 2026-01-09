@@ -1,55 +1,39 @@
 import streamlit as st
 
-# ---------------- PAGE SETUP ----------------
+# ---------- PAGE SETUP ----------
 st.set_page_config(
-    page_title="Animated Friendship",
+    page_title="Happy Hug Animation",
     page_icon="🤗",
     layout="centered"
 )
 
-# ---------------- SESSION STATE ----------------
-if "stage" not in st.session_state:
-    st.session_state.stage = "idle"
+# ---------- SESSION STATE ----------
+if "mode" not in st.session_state:
+    st.session_state.mode = "idle"
 
-# ---------------- CSS (STREAMLIT SAFE) ----------------
+# ---------- CSS (STREAMLIT SAFE) ----------
 st.markdown("""
 <style>
 .scene {
     position: relative;
-    height: 220px;
+    height: 260px;
     width: 100%;
 }
 
 .friend {
     position: absolute;
-    top: 60px;
-    font-size: 80px;
+    top: 90px;
+    font-size: 85px;
 }
 
-.left-idle { left: 5%; }
-.right-idle { right: 5%; }
+.left { left: 35%; }
+.right { right: 35%; }
 
-.left-walk {
-    animation: walkRight 2s forwards;
-}
-.right-walk {
-    animation: walkLeft 2s forwards;
-}
-
-@keyframes walkRight {
-    from { left: 5%; }
-    to { left: 40%; }
-}
-
-@keyframes walkLeft {
-    from { right: 5%; }
-    to { right: 40%; }
-}
-
+/* Hug pulse */
 .hug {
+    font-size: 110px;
     text-align: center;
-    font-size: 100px;
-    animation: hugPulse 1.5s infinite;
+    animation: hugPulse 1.2s infinite;
 }
 
 @keyframes hugPulse {
@@ -58,20 +42,50 @@ st.markdown("""
     100% { transform: scale(1); }
 }
 
-.shake {
-    animation: shake 0.4s infinite;
+/* Glow aura */
+.glow {
+    filter: drop-shadow(0 0 15px #ffd700);
 }
 
-@keyframes shake {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(5deg); }
-    50% { transform: rotate(0deg); }
-    75% { transform: rotate(-5deg); }
-    100% { transform: rotate(0deg); }
+/* Floating hearts */
+.heart {
+    position: absolute;
+    font-size: 28px;
+    animation: floatUp 3s infinite;
+}
+
+@keyframes floatUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    50% { opacity: 1; }
+    100% { opacity: 0; transform: translateY(-80px); }
+}
+
+/* Bounce effect */
+.bounce {
+    animation: bounce 0.8s infinite;
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
+}
+
+/* Sparkles */
+.sparkle {
+    text-align: center;
+    font-size: 22px;
+    animation: sparkle 1.5s infinite;
+}
+
+@keyframes sparkle {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
 }
 
 .card {
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    background: linear-gradient(135deg, #ffe259, #ffa751);
     padding: 25px;
     border-radius: 20px;
     text-align: center;
@@ -80,76 +94,47 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------- TITLE ----------------
+# ---------- TITLE ----------
 st.markdown(
-    "<h1 style='text-align:center; color:#ff4b4b;'>💖 Good Friends 💖</h1>",
+    "<h1 style='text-align:center; color:#ff4b4b;'>💖 Happy Hug 💖</h1>",
     unsafe_allow_html=True
 )
 st.markdown(
-    "<p style='text-align:center;'>Buttons control emotions & movement</p>",
+    "<p style='text-align:center;'>A moment full of joy & friendship ✨</p>",
     unsafe_allow_html=True
 )
 
-# ---------------- BUTTONS ----------------
-col1, col2, col3, col4 = st.columns(4)
+# ---------- BUTTON ----------
+if st.button("😊 Show Happy Hug"):
+    st.session_state.mode = "happy"
 
-with col1:
-    if st.button("🚶 Walk"):
-        st.session_state.stage = "walk"
-
-with col2:
-    if st.button("🤗 Hug"):
-        st.session_state.stage = "hug"
-
-with col3:
-    if st.button("😊 Happy"):
-        st.session_state.stage = "happy"
-
-with col4:
-    if st.button("😂 Funny"):
-        st.session_state.stage = "funny"
-
-# ---------------- SCENE ----------------
-if st.session_state.stage == "idle":
+# ---------- SCENE ----------
+if st.session_state.mode == "happy":
     st.markdown("""
     <div class="scene">
-        <div class="friend left-idle">🧍‍♀️</div>
-        <div class="friend right-idle">🧍‍♂️</div>
+        <div class="hug glow bounce">🤗</div>
+
+        <div class="heart" style="left:40%;">💛</div>
+        <div class="heart" style="left:45%; animation-delay:1s;">💖</div>
+        <div class="heart" style="left:50%; animation-delay:2s;">💛</div>
+        <div class="heart" style="left:55%; animation-delay:1.5s;">💖</div>
+
+        <div class="sparkle">✨ ✨ ✨ ✨ ✨</div>
     </div>
     """, unsafe_allow_html=True)
 
-elif st.session_state.stage == "walk":
-    st.markdown("""
-    <div class="scene">
-        <div class="friend left-idle left-walk">🧍‍♀️</div>
-        <div class="friend right-idle right-walk">🧍‍♂️</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-elif st.session_state.stage == "hug":
-    st.markdown("<div class='hug'>🤗</div>", unsafe_allow_html=True)
-    st.success("True friends always come closer 🤍")
-
-elif st.session_state.stage == "happy":
-    st.markdown("<div class='hug'>🤗</div>", unsafe_allow_html=True)
-    st.success("Happiness is better when shared 🌸")
     st.balloons()
+    st.success("Happiness grows when hugs are shared 🤍")
 
-elif st.session_state.stage == "funny":
-    st.markdown("<div class='hug shake'>🤗</div>", unsafe_allow_html=True)
-    st.warning("Best friends make everything fun 😆")
-    st.balloons()
-
-# ---------------- MESSAGE CARD ----------------
+# ---------- MESSAGE CARD ----------
 st.markdown("""
 <div class="card">
-    Friendship is not about words, it’s about moments.
+    True friendship shines brightest in happy moments 🌈
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------- FOOTER ----------------
+# ---------- FOOTER ----------
 st.markdown(
-    "<p style='text-align:center; color:gray;'>Stable animation using Streamlit session state</p>",
+    "<p style='text-align:center; color:gray;'>All animations are Streamlit-safe & Cloud-ready</p>",
     unsafe_allow_html=True
 )
-
