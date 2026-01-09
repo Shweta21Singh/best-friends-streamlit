@@ -70,34 +70,3 @@ st.markdown(
     "<p style='text-align:center;'>Watch how true friends come together 🤍</p>",
     unsafe_allow_html=True
 )
-
-st.write("")
-
-# Animation container
-st.markdown("""
-<div class="container">
-    <div class="friend left">🧍‍♀️</div>
-    <div class="friend right">🧍‍♂️</div>
-</div>
-""", unsafe_allow_html=True)
-
-# Pause for movement
-time.sleep(3)
-
-# Hug moment
-st.markdown(
-    "<div class='hug'>🤗</div>",
-    unsafe_allow_html=True
-)
-
-st.success("Good friends always find their way back to each other 💞")
-
-st.balloons()
-
-# Footer
-st.markdown(
-    "<p style='text-align:center; color:gray;'>Friendship shown through movement ✨</p>",
-    unsafe_allow_html=True
-)
-
-    
