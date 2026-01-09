@@ -1,98 +1,132 @@
 import streamlit as st
 import random
+import time
 
-# Page setup
+# Page config
 st.set_page_config(
-    page_title="Best Friends Hug",
+    page_title="Friendship Moments",
     page_icon="🤗",
     layout="centered"
 )
 
-# Custom CSS for graphics
+# ---------------- CSS FOR GRAPHICS & MOTION ----------------
 st.markdown("""
 <style>
-body {
-    background-color: #fff7f7;
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 10px #ff9a9e; }
+  50% { box-shadow: 0 0 25px #fad0c4; }
+  100% { box-shadow: 0 0 10px #ff9a9e; }
 }
 
 .card {
-    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-    padding: 30px;
-    border-radius: 20px;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    padding: 35px;
+    border-radius: 25px;
     text-align: center;
-    box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+    animation: glow 3s infinite;
 }
 
 .hug {
     font-size: 90px;
-    margin: 20px 0;
+    animation: float 2.5s ease-in-out infinite;
 }
 
 .note {
-    font-size: 20px;
-    color: #4a1c1c;
+    font-size: 22px;
+    color: #5a1a1a;
     font-weight: 500;
+}
+
+.fade {
+    animation: float 4s ease-in-out infinite;
+    font-size: 18px;
+    color: #444;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Title
+# ---------------- TITLE ----------------
 st.markdown(
-    "<h1 style='text-align:center; color:#ff4b4b;'>💖 Best Friends Forever 💖</h1>",
+    "<h1 style='text-align:center; color:#ff4b4b;'>💖 Friendship Moments 💖</h1>",
     unsafe_allow_html=True
 )
 
 st.markdown(
-    "<p style='text-align:center;'>A moment of warmth, trust, and friendship</p>",
+    "<p class='fade' style='text-align:center;'>Some bonds move the heart, not just the screen</p>",
     unsafe_allow_html=True
 )
 
-# Friendship card
+st.write("")
+
+# ---------------- GRAPHIC CARD ----------------
 st.markdown("""
 <div class="card">
-    <div class="hug">🧑‍🤝‍🧑🤗🧑‍🤝‍🧑</div>
-    <p class="note">Some bonds don’t need words.<br>They are felt in a hug.</p>
+    <div class="hug">🧍‍♀️🤗🧍‍♂️</div>
+    <p class="note">
+        A hug can say what words never can.<br>
+        Friendship lives in moments like this.
+    </p>
 </div>
 """, unsafe_allow_html=True)
 
 st.write("")
 
-# Mood selector
-mood = st.radio(
-    "🌈 Choose the vibe",
-    ["Happy 😊", "Emotional 💞", "Funny 😂", "Forever ♾️"],
-    horizontal=True
+# ---------------- INTERACTIVE CONTROLS ----------------
+mood = st.select_slider(
+    "🌈 Feel the friendship vibe",
+    options=["Happy 😊", "Calm 🌸", "Emotional 💞", "Funny 😂", "Forever ♾️"]
 )
 
 quotes = {
     "Happy 😊": [
-        "Friendship turns ordinary days into special ones 🌸",
-        "Happiness is sharing smiles 🤍"
+        "Smiles grow brighter when shared 🌞",
+        "Friendship makes ordinary days special 🌸"
+    ],
+    "Calm 🌸": [
+        "Peace feels better with a friend 🤍",
+        "Silent moments can be the strongest bond 🌿"
     ],
     "Emotional 💞": [
-        "A hug from a friend can heal the heart ❤️",
-        "True friends feel each other’s silence 🤍"
+        "A true friend understands without words ❤️",
+        "Hearts connect deeper than distance 💫"
     ],
     "Funny 😂": [
-        "Best friends laugh a little louder 😆",
-        "Life is funnier with friends 🤪"
+        "Best friends = unlimited laughter 😆",
+        "Life is better with shared jokes 🤪"
     ],
     "Forever ♾️": [
-        "Some friendships are timeless ♾️",
-        "Forever begins with a single bond 💎"
+        "Some bonds are timeless ♾️",
+        "Friendship never fades 💎"
     ]
 }
 
-# Button action
-if st.button("✨ Feel the Friendship"):
+# ---------------- BUTTON ACTION ----------------
+if st.button("✨ Feel the Moment"):
+    with st.spinner("Creating a friendship moment..."):
+        time.sleep(1.5)
+
     st.success(random.choice(quotes[mood]))
     st.balloons()
     st.snow()
 
-# Footer
+# ---------------- AUTO-CHANGING QUOTE ----------------
+st.write("")
+auto_quotes = [
+    "Friendship is a journey, not a destination 🌍",
+    "Small moments create strong bonds 🤍",
+    "Together feels better ✨"
+]
+
+st.info(random.choice(auto_quotes))
+
+# ---------------- FOOTER ----------------
 st.markdown(
-    "<p style='text-align:center; color:gray;'>Designed with ❤️ using Streamlit</p>",
+    "<p style='text-align:center; color:gray;'>Crafted with ❤️ using Streamlit</p>",
     unsafe_allow_html=True
 )
-
-
